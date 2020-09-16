@@ -1,0 +1,107 @@
+<po-page-list name="ragAppList"
+    [p-title]="literals?.ragAppList"    
+    [p-breadcrumb]="breadcrumb"
+    [p-actions]="pageActions"
+    >
+    <div class="po-row">
+        <po-button class="po-mr-1"
+            (p-click)="onClick()"
+            p-disabled="false"
+            p-icon="po-icon po-icon-plus"
+            p-label="Adicionar"        
+            p-small="false"
+            p-type="primary" >
+        </po-button>
+
+        <po-button class="po-mr-1"
+            (p-click)="onReload()"
+            p-disabled="false"
+            p-icon="po-icon po-icon-refresh"
+            p-label="Refresh"        
+            p-small="false"
+            p-type="primary" >
+        </po-button>
+
+        <countdown #countdown [config]="cdConfig" (event)="handleEvent($event)">$!m!:$!s!</countdown>
+    </div>
+
+    <po-divider></po-divider>
+
+    <div>
+        <po-table
+            p-hide-columns-manager
+            p-container                
+            p-striped="true"
+            p-hide-detail="false"        
+            p-sort="true"        
+            [p-columns]="columns"        
+            [p-items]="items"
+            [p-actions]="tableActions">   
+            
+            <ng-template
+            p-table-row-template
+            let-rowItem
+            let-i="rowIndex"
+            [p-table-row-template-arrow-direction]="'left'"
+            [p-table-row-template-show]="hasRecords"
+            >
+                <po-table
+                    p-hide-columns-manager
+                    p-container                
+                    p-striped="true"
+                    p-hide-detail="false"        
+                    p-sort="true"        
+                    [p-columns]="columnsItems"        
+                    [p-items]="rowItem.items">
+
+                    <ng-template p-table-cell-template let-column="column" let-row="row">
+                        <div *ngIf="column.property === 'spriteId'">
+                            <img class="imgSm" src="https://poring.world/sprites/{{row.spriteId}}.png" alt="">                          
+                        </div>
+                    </ng-template>
+
+                </po-table>
+            </ng-template>
+        </po-table>
+    </div>
+
+</po-page-list>
+<po-modal #modalAdd
+    p-size="sm"
+    [p-title]="literals?.addNewSearch"
+    [p-primary-action]="confirmModalAdd"
+    [p-secondary-action]="cancelModalAdd">
+
+    <div class="po-xl-12 po-lg-12 po-md-12 po-sm-12">
+        <po-select class="po-md-3" name="addRefine" 
+            [(ngModel)]="addRefine"
+            [p-label]="literals?.refine"   
+            [p-options]="comboRefine"> 
+        </po-select>
+
+        <po-input class="po-md-9" name="addCode"
+                [(ngModel)]="addCode"
+                [p-label]="literals?.code"            
+                p-minlength="1"
+                p-maxlength="12"
+                >
+        </po-input>
+    </div>
+
+    <div class="po-xl-12 po-lg-12 po-md-12 po-sm-12">
+        <po-select class="po-md-3" name="addBroken" 
+            [(ngModel)]="addBroken"
+            [p-label]="literals?.broken"   
+            [p-options]="[{value:'any',label: 'any'},{value:'Sim',label: 'Sim'},{value:'Não',label: 'Não'}]"> 
+        </po-select>  
+ 
+        <po-select class="po-md-4" name="addEnchant" 
+            [(ngModel)]="addEnchant"
+            [p-label]="literals?.enchant"   
+            [p-options]="comboEnchant"> 
+        </po-select>        
+
+              
+    </div>
+    
+</po-modal>
