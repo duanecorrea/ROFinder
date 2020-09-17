@@ -109,9 +109,9 @@ export class RagAppListComponent implements OnInit, OnDestroy {
   }
 
   handleEvent(e: CountdownEvent){
-    if(e.action === "done"){
+    if(e.action === 'done'){
       this.onReload();
-    } 
+    }
   }
 
   onReload(){

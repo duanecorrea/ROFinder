@@ -25,6 +25,7 @@ export class RagAppService {
     codeFiltered: string;
 
     index;
+    playSound: boolean;
 
     getItems(oData){
 
@@ -69,11 +70,13 @@ export class RagAppService {
 
                 if (this.dataObjItems.hasNew === 'true'){
                     oData.hasNew = 'true';
+                    this.playSound = true;
                     oData.items.push(this.dataObjItems);
                 }
 
                 if(oData.items){oData.hasRecords = true;}
             });
+            this.playSoundFunc();
         }
         })
 
@@ -81,16 +84,29 @@ export class RagAppService {
             this.index = oData.items.findIndex(o => o.isAlive === 'false');
             oData.items.splice(this.index,1);
         };
+        
+    }
+
+    playSoundFunc():void {
+        const audio = new Audio();
+
+        audio.src = '../../../assets/audio/Ring01.wav';
+
+        if (this.playSound === true ){
+
+            audio.load();
+            audio.play();
+
+        }
     }
 
     getItemsByFunct(funct: string){
 
-        if(funct === 'new'){
-        }else{
-            this.dataObj.map(function(oData){
-                this.getItems(oData);
-            }.bind(this));
-        }
+        this.playSound = false;
+
+        this.dataObj.map(function(oData){
+            this.getItems(oData);
+        }.bind(this));
 
         return this.dataObj;
     }
@@ -130,6 +146,8 @@ export class RagAppService {
     addNewdata(refine: string, code: string,enchant: string,broken:string,id: number){
 
         const dataObjAux: IRagApp = new RagApp();
+
+        this.playSound = false;
 
         dataObjAux.id = id;
         dataObjAux.refine = refine;
