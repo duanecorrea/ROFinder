@@ -26,14 +26,14 @@ const i18nConfig: PoI18nConfig = {
     contexts: {
         general: {
             'pt-BR': generalPt,
-            'pt': generalPt,
+            'pt': generalPt /*,
             'en-US': generalEn,
-            'en': generalEn
+            'en': generalEn*/
         },
         ragApp: {
             'pt-BR': ragAppPt,
-            'pt': ragAppPt,
-            'en': ragAppPt
+            'pt': ragAppPt /*,
+            'en': ragAppPt*/
         }
     }
 };

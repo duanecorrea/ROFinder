@@ -34,6 +34,8 @@
             p-striped="true"
             p-hide-detail="false"        
             p-sort="true"        
+            (p-collapsed)="onCollapse($event)"
+            (p-expanded)="onExpanded($event)"            
             [p-columns]="columns"        
             [p-items]="items"
             [p-actions]="tableActions">   

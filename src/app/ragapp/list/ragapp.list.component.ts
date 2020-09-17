@@ -1,7 +1,7 @@
 import { Component, Inject, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { PoBreadcrumb, PoI18nService, PoModalAction, PoModalComponent, PoTableDetail } from '@po-ui/ng-components';
+import { PoBreadcrumb, PoI18nService, PoModalAction, PoModalComponent, PoNotificationService, PoTableComponent, PoTableDetail } from '@po-ui/ng-components';
 import { PoPageAction, PoTableAction, PoTableColumn, PoTableModule } from '@po-ui/ng-components';
 import { CountdownComponent, CountdownEvent, CountdownConfig } from 'ngx-countdown';
 import { forkJoin, Subscription } from 'rxjs';
@@ -18,6 +18,7 @@ import { RagAppService } from 'src/app/shared/services/ragapp.service';
 export class RagAppListComponent implements OnInit, OnDestroy {
   @ViewChild('modalAdd', { static: true }) modalAdd: PoModalComponent;
   @ViewChild('countdown', { static: false }) private counter: CountdownComponent;
+  @ViewChild(PoTableComponent, { static: true }) poTable: PoTableComponent;
 
   literals: any = {};
 
@@ -51,7 +52,7 @@ export class RagAppListComponent implements OnInit, OnDestroy {
 
   pageActions: Array<PoPageAction>;
 
-  globId: number = 0;
+  globId = 0;
 
   cdConfig: CountdownConfig = { leftTime: 180 };
 
@@ -60,6 +61,7 @@ export class RagAppListComponent implements OnInit, OnDestroy {
       private serviceRagApp: RagAppService,
       private thfI18nService: PoI18nService,
       private activatedRoute: ActivatedRoute,
+      private poNotification: PoNotificationService,
       private router: Router,
       @Inject(LOCALE_ID) private locale: string
   ) { }
@@ -78,7 +80,7 @@ export class RagAppListComponent implements OnInit, OnDestroy {
   }
   addComboRefine(){
     this.comboRefine.push({value:'any',label: 'any'});
-    for (var _i = 1; _i < 16; _i++) {
+    for (var _i = 0; _i < 16; _i++) {
         this.comboRefine.push({value: _i,label: _i});
       }
   }
@@ -115,7 +117,17 @@ export class RagAppListComponent implements OnInit, OnDestroy {
   }
 
   onReload(){
-    this.search();
+    this.items.forEach((item, index) => {
+      if (item.items) {
+        if(item.isExpanded === true){
+          this.onCollapse(item);
+          this.poTable.collapse(index);
+          item.isExpanded = false;
+        }
+      }
+    });
+
+    this.items = this.serviceRagApp.getItemsByFunct('all');
     setTimeout(() => this.counter.restart());
   }
 
@@ -163,10 +175,42 @@ export class RagAppListComponent implements OnInit, OnDestroy {
       ];
    }
 
-   onConfirmModalAdd(){
+   onCollapse(rowIndex: IRagApp){
+    rowIndex.hasNew = 'false';
+    rowIndex.items.forEach(oItem => {
+      oItem.hasNew = 'false';
+    });
+   }
+
+   onExpanded(rowIndex: IRagApp){
+    rowIndex.isExpanded = true;
+   }
+
+   validateFields():boolean{
+
+    const vPk = this.addRefine + this.addCode.trim() + this.addEnchant + this.addBroken;
+    let vReturn = true;
 
     if(this.addRefine === 'any' && this.addEnchant === 'any' && this.addBroken === 'any' && this.addCode === ''){
-        return;
+      this.poNotification.error('Campos em branco!')
+      vReturn = false;
+    }
+
+    this.items.forEach(oItems => {
+      if(oItems.pK  === vPk){
+          this.poNotification.error('Pesquisa já realizada!')
+          vReturn = false;
+          return;
+         }
+    })
+
+    return vReturn;
+   }
+
+   onConfirmModalAdd(){
+
+    if (this.validateFields() === false){
+      return;
     }
 
     this.globId++;
@@ -176,8 +220,8 @@ export class RagAppListComponent implements OnInit, OnDestroy {
    }
 
    delete(item: IRagApp): void {
-     const index = this.items.findIndex(o => o.id === item.id);
-     this.items.splice(index,1);
+     const vIndex = this.items.findIndex(o => o.id === item.id);
+     this.items.splice(vIndex,1);
    }
 
   setupComponents(): void {
