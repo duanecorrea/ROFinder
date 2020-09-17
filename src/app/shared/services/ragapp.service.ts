@@ -84,7 +84,6 @@ export class RagAppService {
             this.index = oData.items.findIndex(o => o.isAlive === 'false');
             oData.items.splice(this.index,1);
         };
-        
     }
 
     playSoundFunc():void {
