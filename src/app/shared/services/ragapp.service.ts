@@ -15,7 +15,10 @@ export class RagAppService {
                                 'X-PO-Screen-Lock': 'true',
                                 'Cache-Control': 'false',
                                 'X-Requested-With': 'false',
-                                'Access-Control-Allow-Origin': '*'
+                                'Access-Control-Allow-Origin': '*',
+                                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, DELETE, PUT',
+                                'Access-Control-Max-Age' : '1000',
+                                'Access-Control-Allow-Headers': 'x-requested-with, Content-Type, origin, authorization, accept, client-security-token'
                             }};
 
     constructor(private http: HttpClient) { }
