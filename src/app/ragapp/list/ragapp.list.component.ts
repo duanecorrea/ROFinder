@@ -76,10 +76,7 @@ export class RagAppListComponent implements OnInit, OnDestroy {
   logAux = 0;
   cont: number;
 
-  vPromise:Promise<any>;
   isWaiting = false;
-
-  private headers = { headers: { 'X-PO-Screen-Lock': 'true' } };
 
   constructor(
       private breadcrumbControlService: BreadcrumbControlService,
@@ -88,7 +85,6 @@ export class RagAppListComponent implements OnInit, OnDestroy {
       private activatedRoute: ActivatedRoute,
       private poNotification: PoNotificationService,
       private router: Router,
-      private http: HttpClient,
       @Inject(LOCALE_ID) private locale: string
   ) { }
 
@@ -158,12 +154,6 @@ export class RagAppListComponent implements OnInit, OnDestroy {
     this.isWaiting = false;
     setTimeout(() => this.counter.restart());
   }
-
-  search(){
-    this.isWaiting = true;
-    this.getItemsByFunct('all');
-    this.isWaiting = false;
-   }
 
   onClick(){
       this.addRefine = 'any';
@@ -243,9 +233,7 @@ export class RagAppListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.globId++;
-
-    this.addNewdata(this.addRefine,this.addCode,this.addEnchant,this.addBroken,this.globId);
+    this.addNewdata(this.addRefine,this.addCode,this.addEnchant,this.addBroken,this.globId++);
     this.modalAdd.close();
    }
 
@@ -276,8 +264,11 @@ export class RagAppListComponent implements OnInit, OnDestroy {
       this.addComboRefine();
       this.addComboEnchant();
 
-      // this.addNewdata('any','mono','any','any',1);
-      // this.addNewdata('any','telekin','any','any',2);
+      // this.addNewdata('any','mono','any','any',this.globId++)
+      // this.addNewdata('any','telekin','any','any',this.globId++)
+      // this.addNewdata('any','abyss','any','any',this.globId++)
+      // this.addNewdata('any','str','any','any',this.globId++)
+      // this.onReload();
 
   }
 
