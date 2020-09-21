@@ -1,7 +1,7 @@
 # api redirect.
 [[redirects]]
   from = "/api/*"
-  to = "https://poring.world/:splat"
+  to = "https://poring.world/api/:splat"
   status = 200
 # SPA router support.
 [[redirects]]
