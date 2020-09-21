@@ -21,7 +21,12 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "_redirects",
+                "input": "src",
+                "output": "/"
+              }
             ],
             "styles": [
               "node_modules/@totvs/po-theme/css/po-theme-default.min.css"
@@ -66,8 +71,7 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "ROFinder:build:production",
-              "proxyConfig": "./proxy.conf.json"
+              "browserTarget": "ROFinder:build:production"
             }
           }
         },
