@@ -3,3 +3,8 @@
   to = "https://poring.world"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/search"
+  to = "/index.html"
+  status = 200
