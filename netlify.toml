@@ -1,5 +1,5 @@
 [[redirects]]
-  from = "/api/*"
+  from = "https://rofinder.netlify.app/*"
   to = "https://poring.world"
   status = 200
   force = true
