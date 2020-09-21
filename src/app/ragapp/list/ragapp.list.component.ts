@@ -265,10 +265,10 @@ export class RagAppListComponent implements OnInit, OnDestroy {
       this.addComboEnchant();
 
       this.addNewdata('any','mono','any','any',this.globId++)
-      this.addNewdata('any','telekin','any','any',this.globId++)
-      this.addNewdata('any','abyss','any','any',this.globId++)
-      this.addNewdata('any','str','any','any',this.globId++)
-      this.onReload();
+      // this.addNewdata('any','telekin','any','any',this.globId++)
+      // this.addNewdata('any','abyss','any','any',this.globId++)
+      // this.addNewdata('any','str','any','any',this.globId++)
+      // this.onReload();
 
   }
 

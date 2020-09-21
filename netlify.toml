@@ -1,7 +1,7 @@
 # api redirect.
 [[redirects]]
   from = "/api/*"
-  to = "https://poring.world/api/:splat"
+  to = "https://poring.world/:splat"
   status = 200
   force = true
 
