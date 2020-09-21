@@ -264,10 +264,12 @@ export class RagAppListComponent implements OnInit, OnDestroy {
       this.addComboRefine();
       this.addComboEnchant();
 
-      this.addNewdata('any','mono','any','any',this.globId++)
+      // this.addNewdata('any','mono','any','any',this.globId++)
       // this.addNewdata('any','telekin','any','any',this.globId++)
       // this.addNewdata('any','abyss','any','any',this.globId++)
       // this.addNewdata('any','str','any','any',this.globId++)
+      // this.addNewdata('any','meteorite','any','any',this.globId++)
+      // this.addNewdata('any','buckler','any','any',this.globId++)
       // this.onReload();
 
   }
@@ -337,6 +339,7 @@ export class RagAppListComponent implements OnInit, OnDestroy {
   }
 
   async getItemsByFunct(funct: string, id?: number,code?: string){
+
 
       if(funct === 'all'){
         for (let i = 0, len = this.items.length; i < len; i++) {
