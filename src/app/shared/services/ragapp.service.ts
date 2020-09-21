@@ -30,6 +30,8 @@ export class RagAppService {
         this.url =
             `/api/search?order=popularity&rarity=&inStock=1&modified=&category=&endCategory=&q=${code}`;
 
+            console.log(this.http);
+
         return this.http.get(this.url, this.headers);
     }
 }
