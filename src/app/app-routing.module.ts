@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-      path: 'rosearch',
+      path: 'search',
       loadChildren: () => import('./ragapp/ragapp.module').then(m => m.RagAppModule)
   }
 ];
