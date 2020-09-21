@@ -34,7 +34,8 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "production": {              
+              "proxyConfig": "./proxy.conf.json",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
