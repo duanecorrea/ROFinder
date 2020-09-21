@@ -71,7 +71,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "ROFinder:build:production"
+              "browserTarget": "ROFinder:build:production",
+              "proxyConfig": "./proxy.conf.json"
             }
           }
         },

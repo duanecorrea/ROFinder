@@ -27,12 +27,9 @@ export class RagAppService {
 
     myRequest(code: string){
 
-          console.log(code);
-
         this.url =
-            `https://poring.world/api/search?order=popularity&rarity=&inStock=1&modified=&category=&endCategory=&q=${code}`;
+            `/api/search?order=popularity&rarity=&inStock=1&modified=&category=&endCategory=&q=${code}`;
 
         return this.http.get(this.url, this.headers);
-
     }
 }

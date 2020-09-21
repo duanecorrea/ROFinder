@@ -1,0 +1,8 @@
+{
+    "/api/*": {
+      "target": "https://poring.world",
+      "secure": true,
+      "changeOrigin": true,
+      "autoRewrite": true
+    }
+  }
