@@ -1,7 +1,7 @@
 [[redirects]]
-  from = "https://rofinder.netlify.app/api/"
-  to = "https://poring.world/api/"
-  status = 200
+  from = "/api/*"
+  to = "https://poring.world/api"
+  status = 301
   force = true
 
 [[redirects]]
