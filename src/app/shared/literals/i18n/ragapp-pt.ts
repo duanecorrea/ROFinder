@@ -11,6 +11,7 @@ export const ragAppPt = {
     qty: 'Stock',
     blank: ' ',
     snap: 'Snap',
+    history: 'Histórico',
 
     addNewSearch: 'Adicionar Nova Busca',
     cpfFormatError: 'Formato do CPF incorreto!',

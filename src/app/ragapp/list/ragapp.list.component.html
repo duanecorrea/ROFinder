@@ -30,7 +30,7 @@
     <div>
         <po-table
             p-hide-columns-manager
-            p-container                
+            p-container="shadow"                
             p-striped="true"
             p-hide-detail="false"        
             p-sort="true"        
@@ -50,7 +50,7 @@
             >
                 <po-table
                     p-hide-columns-manager
-                    p-container                
+                    p-container="shadow"                
                     p-striped="true"
                     p-hide-detail="false"        
                     p-sort="true"        
@@ -106,5 +106,29 @@
 
               
     </div>
+    
+</po-modal>
+
+<po-modal #modalHistory
+    p-size="xl"
+    [p-title]="literals?.history"
+    [p-primary-action]="closeModalHistory">
+
+    <po-table
+        p-hide-columns-manager
+        p-container="shadow"                
+        p-striped="true"
+        p-hide-detail="false"        
+        p-sort="true"        
+        [p-columns]="columnsHistory"        
+        [p-items]="itemsHistory">
+
+        <ng-template p-table-cell-template let-column="column" let-row="row">
+            <div *ngIf="column.property === 'spriteId'">
+                <img class="imgSm" src="https://poring.world/sprites/{{row.spriteId}}.png" alt="">                          
+            </div>
+        </ng-template>
+
+    </po-table>   
     
 </po-modal>

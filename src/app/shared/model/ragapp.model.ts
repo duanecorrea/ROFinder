@@ -12,6 +12,7 @@ export interface IRagApp {
     pK: string;
 
     items: Array<IRagAppItems>;
+    history: Array<IRagAppItems>;
 
 }
 
@@ -27,6 +28,7 @@ export class RagApp implements IRagApp {
     pK: string;
 
     items: Array<IRagAppItems> = [];
+    history: Array<IRagAppItems> = [];
 
     constructor(values: Object = {}) {
         Object.assign(this, values);
@@ -46,6 +48,7 @@ export class RagApp implements IRagApp {
     get $hasNew() { return this.hasNew; }
     get $isExpanded() { return this.isExpanded; }
     get $items(): Array<IRagAppItems> { return this.items; }
+    get $history(): Array<IRagAppItems> { return this.items; }
 
     set $id(value: number) { this.id = value; }
     set $refine(value: string) { this.refine = value; }
@@ -57,6 +60,7 @@ export class RagApp implements IRagApp {
     set $hasNew(value: string) { this.hasNew = value; }
     set $isExpanded(value: boolean) { this.isExpanded = value; }
     set $items(value: Array<IRagAppItems>) { this.items = value; }
+    set $history(value: Array<IRagAppItems>) { this.history = value; }
 
 
 }
