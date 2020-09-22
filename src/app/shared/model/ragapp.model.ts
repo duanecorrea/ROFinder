@@ -10,6 +10,8 @@ export interface IRagApp {
     hasRecords: boolean;
     isExpanded: boolean;
     pK: string;
+    rangeIni: number;
+    rangeFim: number;
 
     items: Array<IRagAppItems>;
     history: Array<IRagAppItems>;
@@ -26,6 +28,8 @@ export class RagApp implements IRagApp {
     hasRecords: boolean;
     isExpanded: boolean;
     pK: string;
+    rangeIni: number;
+    rangeFim: number;
 
     items: Array<IRagAppItems> = [];
     history: Array<IRagAppItems> = [];
@@ -47,6 +51,8 @@ export class RagApp implements IRagApp {
     get $hasRecords() { return this.hasRecords; }
     get $hasNew() { return this.hasNew; }
     get $isExpanded() { return this.isExpanded; }
+    get $rangeIni() { return this.rangeIni; }
+    get $rangeFim() { return this.rangeFim; }
     get $items(): Array<IRagAppItems> { return this.items; }
     get $history(): Array<IRagAppItems> { return this.items; }
 
@@ -59,7 +65,9 @@ export class RagApp implements IRagApp {
     set $hasRecords(value: boolean) { this.hasRecords = value; }
     set $hasNew(value: string) { this.hasNew = value; }
     set $isExpanded(value: boolean) { this.isExpanded = value; }
-    set $items(value: Array<IRagAppItems>) { this.items = value; }
+    set $rangeIni(value: number) { this.rangeIni = value; }
+    set $rangeFim(value: number) { this.rangeFim = value; }
+    set $items(value: Array<IRagAppItems>) { this.items = value; }    
     set $history(value: Array<IRagAppItems>) { this.history = value; }
 
 

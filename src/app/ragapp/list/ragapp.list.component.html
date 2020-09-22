@@ -77,18 +77,40 @@
 
     <div class="po-xl-12 po-lg-12 po-md-12 po-sm-12">
         <po-select class="po-md-3" name="addRefine" 
-            [(ngModel)]="addRefine"
+            [(ngModel)]="addRefine"            
             [p-label]="literals?.refine"   
-            [p-options]="comboRefine"> 
+            (p-change)="onChange()"
+            [p-options]="[{value: 'any',label: 'any'},{value: 'range',label: 'range'}]"> 
         </po-select>
 
-        <po-input class="po-md-9" name="addCode"
+        <po-input class="po-md-2" name="rangeIni"
+            [(ngModel)]="rangeIni"    
+            [p-label]="literals?.ini" 
+            [p-disabled]="isDisabled"
+            p-maxlength="2"
+            p-mask="99"
+            p-required>
+        </po-input> 
+
+        <po-input class="po-md-2" name="rangeFim"
+            [(ngModel)]="rangeFim"
+            [p-label]="literals?.end"     
+            [p-disabled]="isDisabled"    
+            p-mask="99"   
+            p-required>
+        </po-input>         
+    </div>
+
+    <div class="po-xl-12 po-lg-12 po-md-12 po-sm-12">
+
+        <po-input class="po-md-6" name="addCode"
                 [(ngModel)]="addCode"
                 [p-label]="literals?.code"            
                 p-minlength="1"
                 p-maxlength="40"
                 >
         </po-input>
+
     </div>
 
     <div class="po-xl-12 po-lg-12 po-md-12 po-sm-12">

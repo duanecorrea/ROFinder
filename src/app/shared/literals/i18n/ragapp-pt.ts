@@ -12,6 +12,8 @@ export const ragAppPt = {
     blank: ' ',
     snap: 'Snap End',
     history: 'Histórico',
+    ini: 'Inicial',
+    end: 'Final',
 
     addNewSearch: 'Adicionar Nova Busca',
     cpfFormatError: 'Formato do CPF incorreto!',

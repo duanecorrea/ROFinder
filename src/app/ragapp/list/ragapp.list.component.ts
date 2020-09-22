@@ -81,7 +81,11 @@ export class RagAppListComponent implements OnInit, OnDestroy {
   refineLv = '';
   refineFiltered = '';
 
+  rangeIni: string;
+  rangeFim: string;
+
   isWaiting = false;
+  isDisabled = false;
 
   constructor(
       private breadcrumbControlService: BreadcrumbControlService,
@@ -104,12 +108,6 @@ export class RagAppListComponent implements OnInit, OnDestroy {
 
           this.setupComponents();
       });
-  }
-  addComboRefine(){
-    this.comboRefine.push({value:'any',label: 'any'});
-    for (var _i = 0; _i < 16; _i++) {
-        this.comboRefine.push({value: _i,label: _i});
-      }
   }
 
   pushCombo(eff: string){
@@ -143,6 +141,15 @@ export class RagAppListComponent implements OnInit, OnDestroy {
     }
   }
 
+  onChange(){
+    this.rangeIni = '0';
+    this.rangeFim = '15';
+    if(this.addRefine === 'any'){
+      this.isDisabled = true;
+    }
+    else{this.isDisabled = false;}
+  }
+
   onReload(){
     this.items.forEach((item, index) => {
       if (item.items) {
@@ -161,6 +168,9 @@ export class RagAppListComponent implements OnInit, OnDestroy {
   }
 
   onClick(){
+      this.rangeIni = '0';
+      this.rangeFim = '15';
+      this.isDisabled = true;
       this.addRefine = 'any';
       this.addEnchant = 'any';
       this.addBroken = 'any';
@@ -230,11 +240,12 @@ export class RagAppListComponent implements OnInit, OnDestroy {
 
    validateFields():boolean{
 
-    const vPk = this.addRefine + this.addCode.trim() + this.addEnchant + this.addBroken;
+    const vPk = this.addRefine + this.rangeIni + this.rangeFim +
+                this.addCode.trim() + this.addEnchant + this.addBroken;
     let vReturn = true;
 
-    if(this.addRefine === 'any' && this.addEnchant === 'any' && this.addBroken === 'any' && this.addCode === ''){
-      this.poNotification.error('Campos em branco!')
+    if(this.addCode === ''){
+      this.poNotification.error('Item não informado!')
       vReturn = false;
     }
 
@@ -255,7 +266,7 @@ export class RagAppListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.addNewdata(this.addRefine,this.addCode,this.addEnchant,this.addBroken,this.globId++);
+    this.addNewdata();
     this.modalAdd.close();
    }
 
@@ -295,9 +306,7 @@ export class RagAppListComponent implements OnInit, OnDestroy {
         action: () => this.modalHistory.close(), label: this.literals['close']
       };
 
-      this.addComboRefine();
       this.addComboEnchant();
-
       // this.addNewdata('any','mono','any','any',this.globId++)
       // this.addNewdata('any','natto','any','any',this.globId++)
       // this.addNewdata('any','abyss','any','any',this.globId++)
@@ -332,8 +341,12 @@ export class RagAppListComponent implements OnInit, OnDestroy {
               this.refineLv = item.name.substring(item.name.indexOf('+') +1,3).trim();
             }
 
-              if (this.oData.refine !== 'any' && this.refineLv !== '' &&
-                  parseInt(this.oData.refine) !== parseInt(this.refineLv)){return;}
+              if (this.oData.refine !== 'any'){
+                if(this.refineLv === ''){return;}
+                if(Number(this.refineLv) < Number(this.oData.rangeIni) ||
+                   Number(this.refineLv) > Number(this.oData.rangeFim)) {return;}
+              }
+
               if (this.oData.enchant !== 'any' && item.name.indexOf(this.oData.enchant) === -1){return;}
               if (this.oData.broken !== 'any'){
                   if(this.oData.broken === 'Sim' && item.name.indexOf('broken') === -1){return;}
@@ -446,16 +459,24 @@ export class RagAppListComponent implements OnInit, OnDestroy {
       this.playSoundFunc();
   }
 
-  addNewdata(refine: string, code: string,enchant: string,broken:string,id: number){
+  addNewdata(){
 
       const dataObjAux: IRagApp = new RagApp();
 
-      dataObjAux.pK = refine + code.trim() + enchant + broken;
-      dataObjAux.id = id;
-      dataObjAux.refine = refine;
-      dataObjAux.code = code;
-      dataObjAux.enchant = enchant;
-      dataObjAux.broken = broken;
+      dataObjAux.pK = this.addRefine + this.rangeIni + this.rangeFim +
+                      this.addCode.trim() + this.addEnchant + this.addBroken
+      dataObjAux.id = this.globId++;
+      dataObjAux.code = this.addCode.trim();
+      dataObjAux.enchant = this.addEnchant;
+      dataObjAux.broken = this.addBroken;
+
+      if(this.addRefine === 'range'){
+        dataObjAux.refine = this.rangeIni + '-' + this.rangeFim;
+        dataObjAux.rangeIni = Number(this.rangeIni);
+        dataObjAux.rangeFim = Number(this.rangeFim);
+      }else{
+        dataObjAux.refine = this.addRefine;
+      }
 
       this.items.push(dataObjAux);
 
