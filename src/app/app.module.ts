@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CommonModule, registerLocaleData } from '@angular/common';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { PoModule } from '@po-ui/ng-components';
@@ -17,6 +17,8 @@ import { ragAppPt } from './shared/literals/i18n/ragapp-pt';
 
 import { BreadcrumbControlService } from './shared/services/breadcrumb-control.service';
 import { RagAppService } from './shared/services/ragapp.service';
+
+import localePt from '@angular/common/locales/pt';
 
 const i18nConfig: PoI18nConfig = {
     default: {
@@ -38,6 +40,8 @@ const i18nConfig: PoI18nConfig = {
     }
 };
 
+registerLocaleData(localePt, 'pt');
+
 @NgModule({
     declarations: [
         AppComponent
@@ -56,7 +60,8 @@ const i18nConfig: PoI18nConfig = {
     providers: [
         PoI18nPipe,
         BreadcrumbControlService,
-        RagAppService
+        RagAppService,
+        { provide: LOCALE_ID, useValue: 'pt' }
     ],
     bootstrap: [AppComponent]
 })

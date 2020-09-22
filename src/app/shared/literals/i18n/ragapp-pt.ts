@@ -2,13 +2,15 @@ export const ragAppPt = {
 
     ragAppList: 'Lista Itens Market',
 
-    code: 'Nome Item',
+    code: 'Item',
     refine: 'Refino',
     enchant: 'Encantamento',
     broken: 'Quebrado',
-    hasNew: 'Novo Item',
+    hasNew: 'Status',
     price: 'Preço',
+    qty: 'Stock',
     blank: ' ',
+    snap: 'Snap',
 
     addNewSearch: 'Adicionar Nova Busca',
     cpfFormatError: 'Formato do CPF incorreto!',

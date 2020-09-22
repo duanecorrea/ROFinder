@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -179,14 +180,16 @@ export class RagAppListComponent implements OnInit, OnDestroy {
    getColumnsItems(): PoTableColumn[] {
 
       return [
-          { property: 'spriteId', label: this.literals['blank'], type: 'cellTemplate', width: '10%'},
-          { property: 'refine', label: this.literals['refine'], type: 'string', width: '10%'},
+          { property: 'spriteId', label: this.literals['blank'], type: 'cellTemplate', width: '5%'},
+          { property: 'refine', label: this.literals['refine'], type: 'string', width: '5%'},
           { property: 'code', label: this.literals['code'], type: 'string', width: '20%'},
           { property: 'enchant', label: this.literals['enchant'], type: 'string', width: '20%'},
-          { property: 'broken', label: this.literals['broken'], type: 'label', width: '20%',
+          { property: 'broken', label: this.literals['broken'], type: 'label', width: '10%',
           labels: [
             { value: 'false', label: 'Normal' },
             { value: 'true', color: 'color-07', label: 'Broken' }]},
+          { property: 'qty', label: this.literals['qty'], type: 'string', width: '10%'},
+          { property: 'snap', label: this.literals['snap'], type: 'string', color: 'color-07', width: '10%'},
           { property: 'price', label: this.literals['price'], type: 'string', width: '10%'},
           { property: 'hasNew', label: this.literals['hasNew'], type: 'label', width: '10%',
           labels: [
@@ -265,7 +268,7 @@ export class RagAppListComponent implements OnInit, OnDestroy {
       this.addComboEnchant();
 
       // this.addNewdata('any','mono','any','any',this.globId++)
-      // this.addNewdata('any','telekin','any','any',this.globId++)
+      // this.addNewdata('any','natto','any','any',this.globId++)
       // this.addNewdata('any','abyss','any','any',this.globId++)
       // this.addNewdata('any','str','any','any',this.globId++)
       // this.addNewdata('any','meteorite','any','any',this.globId++)
@@ -300,12 +303,8 @@ export class RagAppListComponent implements OnInit, OnDestroy {
                   if(this.oData.broken === 'false' && item.name.indexOf('broken') !== -1){return;}
               }
 
-              this.dataObjItems = this.addNewdataItems(item.refineLv.toString(),
-                                                      item.name,
-                                                      item.name.indexOf('broken') !== -1,
-                                                      item.lastRecord.price,
-                                                      item.icon,
-                                                      this.oData.id);
+              this.dataObjItems = this.addNewdataItems(this.oData.id,
+                                                      item);
 
               this.oData.items.map(function(oItems){
                   if (oItems.refine  === this.dataObjItems.refine  &&
@@ -336,6 +335,47 @@ export class RagAppListComponent implements OnInit, OnDestroy {
               this.cont++;
           });
       }
+  }
+
+  addNewdataItems(id: number, item){
+
+    const dataObjAux: IRagAppItems = new RagAppItems();
+    const refineFiltered: string = '+' + item.refineLv.toString();
+    const broken = item.name.indexOf('broken') !== -1;
+
+    this.enchantFiltered = '';
+    this.codeFiltered = item.name;
+
+    if(this.codeFiltered.indexOf('<') > 0){
+        this.enchantFiltered = this.codeFiltered.substring(this.codeFiltered.indexOf('<') +1,this.codeFiltered.indexOf('>'));
+        this.codeFiltered = this.codeFiltered.substring(0,this.codeFiltered.indexOf('<'));
+    }
+    if(this.codeFiltered.indexOf('broken') > 0){
+        this.codeFiltered = this.codeFiltered.replace('(broken)','');
+    }
+
+    this.codeFiltered = this.codeFiltered.replace(refineFiltered, '');
+
+    dataObjAux.id       = id;
+    dataObjAux.refine   = refineFiltered;
+    dataObjAux.code     = this.codeFiltered;
+    dataObjAux.enchant  = this.enchantFiltered;
+    dataObjAux.broken   = broken.toString();
+    dataObjAux.hasNew   = 'true';
+    dataObjAux.price    = (item.lastRecord.price / 1000000).toFixed(3) + 'kk';
+    dataObjAux.spriteId = item.icon;
+    dataObjAux.snap     = item.lastRecord.snapEnd;
+    dataObjAux.qty      = item.lastRecord.stock;
+    dataObjAux.isAlive  = 'true';
+
+    if(Number(dataObjAux.snap) !== 0){
+      dataObjAux.snap = formatDate(dataObjAux.snap + '000','short','pt');
+    }else{
+      dataObjAux.snap = '';
+    }
+
+    return dataObjAux;
+
   }
 
   async getItemsByFunct(funct: string, id?: number,code?: string){
@@ -380,38 +420,6 @@ export class RagAppListComponent implements OnInit, OnDestroy {
           audio.play();
           this.playSound = false;
       }
-  }
-
-  addNewdataItems(refine: string, code: string,broken:boolean,price: number,icon: string, id: number){
-
-      const dataObjAux: IRagAppItems = new RagAppItems();
-      const refineFiltered: string = '+' + refine;
-
-      this.enchantFiltered = '';
-      this.codeFiltered = code;
-
-      if(code.indexOf('<') > 0){
-          this.enchantFiltered = code.substring(code.indexOf('<') +1,code.indexOf('>'));
-          this.codeFiltered = code.substring(0,code.indexOf('<'));
-      }
-      if(this.codeFiltered.indexOf('broken') > 0){
-          this.codeFiltered = this.codeFiltered.replace('(broken)','');
-      }
-
-      this.codeFiltered = this.codeFiltered.replace(refineFiltered, '');
-
-      dataObjAux.id = id;
-      dataObjAux.refine = refineFiltered;
-      dataObjAux.code = this.codeFiltered;
-      dataObjAux.enchant = this.enchantFiltered;
-      dataObjAux.broken = broken.toString();
-      dataObjAux.hasNew = 'true';
-      dataObjAux.price = (price / 1000000).toFixed(3) + 'kk';
-      dataObjAux.spriteId = icon;
-      dataObjAux.isAlive = 'true';
-
-      return dataObjAux;
-
   }
 
   callFake2(){

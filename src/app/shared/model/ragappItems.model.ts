@@ -8,6 +8,8 @@ export interface IRagAppItems {
     price: string;
     spriteId: string;
     isAlive: string;
+    snap: string;
+    qty: string;
 
 }
 
@@ -21,6 +23,8 @@ export class RagAppItems implements IRagAppItems {
     price: string;
     spriteId: string;
     isAlive: string;
+    snap: string;
+    qty: string;
 
     constructor(values: Object = {}) {
         Object.assign(this, values);
@@ -39,6 +43,8 @@ export class RagAppItems implements IRagAppItems {
     get $price() { return this.price; }
     get $spriteId() { return this.spriteId; }
     get $isAlive() { return this.isAlive; }
+    get $snap() { return this.isAlive; }
+    get $qty() { return this.isAlive; }
 
     set $id(value: number) { this.id = value; }
     set $refine(value: string) { this.refine = value; }
@@ -49,6 +55,8 @@ export class RagAppItems implements IRagAppItems {
     set $price(value: string) { this.price = value; }
     set $spriteId(value: string) { this.spriteId = value; }
     set $isAlive(value: string) { this.isAlive = value; }
+    set $snap(value: string) { this.snap = value; }
+    set $qty(value: string) { this.qty = value; }
 
 
 }
