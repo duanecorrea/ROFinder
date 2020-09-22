@@ -10,7 +10,7 @@ export const ragAppPt = {
     price: 'Preço',
     qty: 'Stock',
     blank: ' ',
-    snap: 'Snap',
+    snap: 'Snap End',
     history: 'Histórico',
 
     addNewSearch: 'Adicionar Nova Busca',

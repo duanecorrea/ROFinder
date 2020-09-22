@@ -78,6 +78,8 @@ export class RagAppListComponent implements OnInit, OnDestroy {
   playSound: boolean = false;
 
   cont: number;
+  refineLv = '';
+  refineFiltered = '';
 
   isWaiting = false;
 
@@ -325,11 +327,17 @@ export class RagAppListComponent implements OnInit, OnDestroy {
       if (result){
           result.forEach(item => {
 
-              if (this.oData.refine !== 'any' && parseInt(this.oData.refine) !== item.refineLv){return;}
+            this.refineLv = '';
+            if(item.name.indexOf('+') !== -1){
+              this.refineLv = item.name.substring(item.name.indexOf('+') +1,3).trim();
+            }
+
+              if (this.oData.refine !== 'any' && this.refineLv !== '' &&
+                  parseInt(this.oData.refine) !== parseInt(this.refineLv)){return;}
               if (this.oData.enchant !== 'any' && item.name.indexOf(this.oData.enchant) === -1){return;}
               if (this.oData.broken !== 'any'){
-                  if(this.oData.broken === 'true' && item.name.indexOf('broken') === -1){return;}
-                  if(this.oData.broken === 'false' && item.name.indexOf('broken') !== -1){return;}
+                  if(this.oData.broken === 'Sim' && item.name.indexOf('broken') === -1){return;}
+                  if(this.oData.broken === 'Não' && item.name.indexOf('broken') !== -1){return;}
               }
 
               this.dataObjItems = this.addNewdataItems(this.oData.id,
@@ -382,7 +390,6 @@ export class RagAppListComponent implements OnInit, OnDestroy {
   addNewdataItems(id: number, item){
 
     const dataObjAux: IRagAppItems = new RagAppItems();
-    const refineFiltered: string = '+' + item.refineLv.toString();
     const broken = item.name.indexOf('broken') !== -1;
 
     this.enchantFiltered = '';
@@ -396,10 +403,14 @@ export class RagAppListComponent implements OnInit, OnDestroy {
         this.codeFiltered = this.codeFiltered.replace('(broken)','');
     }
 
-    this.codeFiltered = this.codeFiltered.replace(refineFiltered, '');
+    this.refineFiltered = '';
+    if(this.refineLv !== ''){
+      this.refineFiltered = '+' + this.refineLv;
+      this.codeFiltered   = this.codeFiltered.replace(this.refineFiltered, '');
+    }
 
     dataObjAux.id       = id;
-    dataObjAux.refine   = refineFiltered;
+    dataObjAux.refine   = this.refineFiltered;
     dataObjAux.code     = this.codeFiltered;
     dataObjAux.enchant  = this.enchantFiltered;
     dataObjAux.broken   = broken.toString();
